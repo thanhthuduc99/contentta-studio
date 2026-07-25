@@ -1,0 +1,64 @@
+<!-- kinetic-complex — 1 slide HTML animation PHỨC TẠP (gần cuối video). Nền TRẮNG, chữ ĐEN, nhấn ĐỎ. -->
+<!-- Placeholders: __COMP_ID__ __DUR__ __KICKER__ __HEAD_HTML__ (chứa <span class="ac">…</span> cho từ nhấn) -->
+<template id="__COMP_ID__-template">
+  <div data-composition-id="__COMP_ID__" data-start="0" data-width="1080" data-height="1920" data-duration="__DUR__">
+    <div class="kx-bg"></div>
+    <div class="kx-blob kx-b1"></div>
+    <div class="kx-blob kx-b2"></div>
+    <div class="kx-grid"></div>
+    <div class="kx-square"></div>
+    <div class="kx-wrap">
+      <div class="kx-kicker"><span class="kx-bar"></span><span class="kx-ktext">__KICKER__</span></div>
+      <div class="kx-head" id="__COMP_ID__-head">__HEAD_HTML__</div>
+      <div class="kx-rule"></div>
+    </div>
+    <style>
+      [data-composition-id="__COMP_ID__"]{position:absolute;inset:0;width:1080px;height:1920px;font-family:'Be Vietnam Pro',sans-serif;overflow:hidden}
+      [data-composition-id="__COMP_ID__"] .kx-bg{position:absolute;inset:0;background:#FAF7F5}
+      [data-composition-id="__COMP_ID__"] .kx-blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5}
+      [data-composition-id="__COMP_ID__"] .kx-b1{width:620px;height:620px;left:-160px;top:-120px;background:radial-gradient(circle,#ffd6da,transparent 70%);animation:kxFloat1 9s ease-in-out infinite}
+      [data-composition-id="__COMP_ID__"] .kx-b2{width:520px;height:520px;right:-150px;bottom:-100px;background:radial-gradient(circle,#ffe9d6,transparent 70%);animation:kxFloat2 11s ease-in-out infinite}
+      [data-composition-id="__COMP_ID__"] .kx-grid{position:absolute;inset:0;opacity:.05;background-image:linear-gradient(#0B0B0C 1px,transparent 1px),linear-gradient(90deg,#0B0B0C 1px,transparent 1px);background-size:90px 90px;animation:kxGrid 14s linear infinite}
+      [data-composition-id="__COMP_ID__"] .kx-square{position:absolute;right:120px;top:300px;width:74px;height:74px;border:8px solid #E10E1F;border-radius:14px;opacity:0;animation:kxSpin 8s linear infinite}
+      [data-composition-id="__COMP_ID__"] .kx-wrap{position:absolute;left:90px;right:90px;top:50%;transform:translateY(-50%)}
+      [data-composition-id="__COMP_ID__"] .kx-kicker{display:flex;align-items:center;gap:16px;margin-bottom:42px}
+      [data-composition-id="__COMP_ID__"] .kx-bar{width:12px;height:42px;background:#E10E1F;border-radius:3px;transform-origin:center}
+      [data-composition-id="__COMP_ID__"] .kx-ktext{font-weight:600;font-size:34px;letter-spacing:.16em;text-transform:uppercase;color:#0B0B0C;opacity:.6}
+      [data-composition-id="__COMP_ID__"] .kx-head{font-weight:800;font-size:128px;line-height:1.04;color:#0B0B0C;letter-spacing:-.02em}
+      [data-composition-id="__COMP_ID__"] .kx-head .kx-w{display:inline-block;white-space:pre;will-change:transform,opacity,filter}
+      [data-composition-id="__COMP_ID__"] .kx-head .ac{color:#E10E1F;position:relative}
+      [data-composition-id="__COMP_ID__"] .kx-rule{height:10px;width:0;margin-top:40px;border-radius:6px;background:linear-gradient(90deg,#E10E1F,#ff5a67)}
+      @keyframes kxFloat1{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,30px)}}
+      @keyframes kxFloat2{0%,100%{transform:translate(0,0)}50%{transform:translate(-36px,-28px)}}
+      @keyframes kxGrid{from{background-position:0 0}to{background-position:90px 90px}}
+      @keyframes kxSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function(){
+        window.__timelines = window.__timelines || {};
+        const C='[data-composition-id="__COMP_ID__"]';
+        const head = document.querySelector('#__COMP_ID__-head');
+        // tách từng TỪ thành span (giữ class .ac của từ nhấn)
+        if (head){
+          const out=[];
+          head.childNodes.forEach((node)=>{
+            if(node.nodeType===3){ node.textContent.split(/(\s+)/).forEach((tok)=>{ if(tok==='')return; out.push(tok.trim()===''?tok:'<span class="kx-w">'+tok+'</span>'); }); }
+            else { out.push('<span class="kx-w '+(node.className||'')+'">'+node.textContent+'</span>'); }
+          });
+          head.innerHTML = out.join('');
+        }
+        const tl = gsap.timeline({ paused:true });
+        tl.from(C+' .kx-bar',{scaleY:0,duration:.34,ease:'power3.out'},0);
+        tl.from(C+' .kx-ktext',{opacity:0,x:-26,duration:.34,ease:'power2.out'},.08);
+        tl.from(C+' .kx-w',{opacity:0,yPercent:120,rotateX:-70,filter:'blur(14px)',transformOrigin:'50% 100%',duration:.55,ease:'back.out(1.5)',stagger:.07},.2);
+        tl.fromTo(C+' .kx-square',{opacity:0,scale:0},{opacity:1,scale:1,duration:.5,ease:'back.out(2)'},.5);
+        tl.to(C+' .kx-rule',{width:240,duration:.5,ease:'power2.out'},.7);
+        tl.fromTo(C+' .ac',{backgroundSize:'0% 100%'},{duration:.4},.9);
+        tl.to(C+' .kx-head',{scale:1.02,duration:.5,yoyo:true,repeat:1,ease:'sine.inOut'},'>-0.2');
+        tl.to({}, { duration: __DUR__ }, 0);
+        window.__timelines["__COMP_ID__"] = tl;
+      })();
+    </script>
+  </div>
+</template>

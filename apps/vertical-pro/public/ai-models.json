@@ -1,0 +1,10 @@
+{
+  "video": [
+    { "id": "fal-ai/wan/v2.2-a14b/text-to-video", "name": "WAN 2.2 · DỌC 9:16 (mặc định, chỉnh khung được)" },
+    { "id": "fal-ai/minimax/hailuo-02/standard/text-to-video", "name": "Hailuo 02 · ngang 16:9 (768p)" },
+    { "id": "fal-ai/minimax/hailuo-02/pro/text-to-video", "name": "Hailuo 02 Pro · ngang 1080p" }
+  ],
+  "image": [
+    { "id": "fal-ai/flux/schnell", "name": "FLUX schnell (siêu rẻ)" }
+  ]
+}

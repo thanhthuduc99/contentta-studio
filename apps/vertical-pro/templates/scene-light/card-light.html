@@ -1,0 +1,46 @@
+<!-- card-light — SPLIT top card (Nate style): nền TRẮNG, chữ ĐEN, nhấn ĐỎ. Phủ nửa trên 0..960; dưới trong suốt cho mặt. -->
+<!-- Placeholders: __COMP_ID__ __DUR__ __KICKER__ __HEAD_HTML__ -->
+<template id="__COMP_ID__-template">
+  <div data-composition-id="__COMP_ID__" data-start="0" data-width="1080" data-height="1920" data-duration="__DUR__">
+    <div class="cl-panel">
+      <div class="cl-kicker"><span class="cl-dot"></span><span>__KICKER__</span></div>
+      <div class="cl-card">
+        <div class="cl-head">__HEAD_HTML__</div>
+        <div class="cl-rule"></div>
+      </div>
+      <svg class="cl-cursor" viewBox="0 0 24 24" width="48" height="48"><path d="M4 2l16 8-7 2-3 7-6-19z" fill="#0B0B0C" stroke="#fff" stroke-width="1.3"/></svg>
+    </div>
+    <div class="cl-seam"></div>
+    <style>
+      [data-composition-id="__COMP_ID__"]{position:absolute;inset:0;width:1080px;height:1920px;font-family:'Be Vietnam Pro',sans-serif;}
+      [data-composition-id="__COMP_ID__"] .cl-panel{position:absolute;left:0;top:0;width:1080px;height:960px;background:#FAF7F5;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;overflow:hidden;}
+      [data-composition-id="__COMP_ID__"] .cl-kicker{display:flex;align-items:center;gap:14px;font-family:'Plus Jakarta Sans',sans-serif;
+        font-weight:600;font-size:30px;letter-spacing:.16em;text-transform:uppercase;color:#0B0B0C;opacity:.6;}
+      [data-composition-id="__COMP_ID__"] .cl-dot{width:16px;height:16px;border-radius:50%;background:#E10E1F;box-shadow:0 0 0 6px rgba(225,14,31,.16);}
+      [data-composition-id="__COMP_ID__"] .cl-card{background:#fff;border:2px solid #ECE7E4;border-radius:34px;
+        box-shadow:0 30px 70px rgba(11,11,12,.10);padding:58px 70px;max-width:900px;text-align:center;}
+      [data-composition-id="__COMP_ID__"] .cl-head{font-weight:800;font-size:96px;line-height:1.08;color:#0B0B0C;letter-spacing:-.01em;}
+      [data-composition-id="__COMP_ID__"] .cl-head .ac{color:#E10E1F;}
+      [data-composition-id="__COMP_ID__"] .cl-rule{height:8px;width:0;margin:34px auto 0;border-radius:6px;background:#E10E1F;}
+      [data-composition-id="__COMP_ID__"] .cl-cursor{position:absolute;left:54%;top:66%;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25));}
+      [data-composition-id="__COMP_ID__"] .cl-seam{position:absolute;left:0;top:954px;width:1080px;height:8px;
+        background:linear-gradient(90deg,rgba(225,14,31,0) 0%,rgba(225,14,31,.65) 50%,rgba(225,14,31,0) 100%);}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function(){
+        window.__timelines = window.__timelines || {};
+        const C='[data-composition-id="__COMP_ID__"]';
+        const tl = gsap.timeline({ paused:true });
+        tl.from(C+' .cl-panel', {yPercent:-100, duration:.34, ease:'power3.out'}, 0);
+        tl.from(C+' .cl-kicker', {opacity:0, y:18, duration:.30, ease:'power2.out'}, .10);
+        tl.from(C+' .cl-card', {opacity:0, y:60, scale:.92, filter:'blur(14px)', duration:.42, ease:'power3.out'}, .14);
+        tl.to(C+' .cl-rule', {width:200, duration:.40, ease:'power2.out'}, .34);
+        tl.fromTo(C+' .cl-cursor', {x:90, y:80, opacity:0}, {x:0, y:0, opacity:1, duration:.5, ease:'power2.out'}, .30);
+        tl.to({}, { duration: __DUR__ }, 0);
+        window.__timelines["__COMP_ID__"] = tl;
+      })();
+    </script>
+  </div>
+</template>

@@ -1,0 +1,10 @@
+{
+  "name": "contentta-vertical-pro",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "App điều khiển edit video dọc nâng cao (Nate Herk style). Vanilla node http + SSE, không deps ngoài.",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

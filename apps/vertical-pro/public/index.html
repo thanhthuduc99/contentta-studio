@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contentta Studio — Edit video ngắn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Be+Vietnam+Pro:wght@400;500;600&family=Lora:ital,wght@1,500;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <!-- nền: orbs pastel trôi + grain -->
+  <div class="orbs" aria-hidden="true">
+    <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <button class="brand" id="brandHome" type="button">
+      <svg class="mark" viewBox="0 0 24 24" fill="none"><rect x="1.5" y="5" width="16" height="14" rx="3.5" fill="currentColor"/><path d="M18.5 10.2 22.5 7.6v8.8l-4-2.6z" fill="currentColor"/><path d="M7.6 9.4v5.2l4.6-2.6z" fill="#FAF6EF"/></svg>
+      <span class="wordmark">CONTENTTA</span><span class="sub">studio</span>
+    </button>
+    <div class="tabs" role="tablist">
+      <button class="tab" data-view="script" type="button">Kịch bản</button>
+      <button class="tab" data-view="lib" type="button">Dự án</button>
+    </div>
+    <div class="nav-right"><span class="statusdot" id="statusDot"></span><span id="statusText" class="statusText">sẵn sàng</span><button class="btn ghost sm" id="btnLogout" type="button" hidden>Đăng xuất</button></div>
+  </nav>
+
+  <!-- màn đăng nhập (chặn app khi bật AUTH_* trong .env) -->
+  <div class="auth-gate hidden" id="authGate">
+    <form class="auth-card" id="authForm">
+      <div class="auth-brand"><span class="wordmark">CONTENTTA</span><span class="sub">studio</span></div>
+      <h2>Đăng nhập</h2>
+      <label class="af"><span>Tài khoản</span><input type="text" id="authUser" autocomplete="username" required></label>
+      <label class="af"><span>Mật khẩu</span><input type="password" id="authPass" autocomplete="current-password" required></label>
+      <label class="af-remember"><input type="checkbox" id="authRemember" checked> Ghi nhớ đăng nhập</label>
+      <p class="auth-err" id="authErr" hidden></p>
+      <button class="btn primary" type="submit" id="authBtn">Đăng nhập</button>
+    </form>
+  </div>
+
+  <!-- ============ VIEW: KỊCH BẢN (Mục 1) ============ -->
+  <main class="view" id="viewScript" hidden>
+    <header class="hero">
+      <p class="eyebrow">Mục 1 — trước khi quay</p>
+      <h1>Chủ đề vào. <em>Kịch bản</em> ra.</h1>
+      <p class="lede">AI viết script nhịp nhanh + shot list b-roll đánh số. Bạn đọc, quay, và tìm đúng cảnh theo số.</p>
+    </header>
+
+    <section class="card form-card reveal">
+      <div class="frow">
+        <label class="f">
+          <span>Chủ đề video</span>
+          <input id="topicInput" type="text" placeholder="VD: Claude Fable 5 vừa ra mắt — có gì mới" maxlength="300" />
+        </label>
+        <label class="f">
+          <span>Ghi chú thêm <i>(không bắt buộc)</i></span>
+          <input id="notesInput" type="text" placeholder="góc nhìn, số liệu muốn nhắc, CTA…" maxlength="500" />
+        </label>
+      </div>
+      <button class="btn primary" id="btnGen" type="button">Viết kịch bản</button>
+    </section>
+
+    <section id="scriptResult" hidden>
+      <div class="script-grid">
+        <div class="reading card">
+          <div class="reading-head">
+            <p class="eyebrow" id="srTopic"></p>
+            <button class="btn ghost sm" id="btnCopyScript" type="button">Copy script</button>
+          </div>
+          <ol class="beats" id="beatList"></ol>
+        </div>
+        <aside class="shotlist card">
+          <h3>Shot list b-roll</h3>
+          <p class="hint">Quay / tìm video <b>ngang 16:9</b>, đặt tên file theo số.</p>
+          <ul id="shotList"></ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="prev-scripts">
+      <h3 class="secl">Kịch bản đã viết</h3>
+      <div class="chips" id="scriptChips"></div>
+    </section>
+  </main>
+
+  <!-- ============ VIEW: DỰ ÁN / THƯ VIỆN ============ -->
+  <main class="view" id="viewLib" hidden>
+    <header class="hero">
+      <p class="eyebrow">Mục 2 — sau khi quay</p>
+      <h1>Quăng video vào. <em>Máy</em> dựng.</h1>
+      <p class="lede">AI cắt vấp, tách scene, tạo phụ đề. Bạn chỉ kéo-thả b-roll vào từng cảnh rồi xuất.</p>
+    </header>
+
+    <section class="card dz-card reveal" id="dz">
+      <input type="file" id="faceInput" accept="video/*" hidden />
+      <svg viewBox="0 0 24 24" class="dz-ic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V7m0 0-4 4m4-4 4 4"/><path d="M4 17.5V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5"/></svg>
+      <p class="dz-t" id="dzText">Kéo-thả video quay chính (ngang 16:9) vào đây</p>
+      <p class="dz-s">hoặc bấm để chọn file — app tự transcribe, cắt vấp, tách cảnh</p>
+      <button class="btn primary" id="btnCreate" type="button" disabled>Tạo dự án</button>
+    </section>
+
+    <section>
+      <h3 class="secl">Dự án</h3>
+      <div class="proj-grid" id="projGrid"></div>
+    </section>
+  </main>
+
+  <!-- ============ VIEW: EDITOR ============ -->
+  <main class="view view-ed" id="viewEd" hidden>
+    <div class="ed-head">
+      <button class="btn ghost sm" id="btnBack" type="button">← Dự án</button>
+      <div class="ed-title"><span id="edName"></span><span class="pill" id="edStatus"></span></div>
+      <div class="ed-tools">
+        <label class="tool"><span>Zoom ảnh</span><label class="sw"><input type="checkbox" id="zoomToggle"><span></span></label></label>
+        <label class="tool"><span>Nhạc</span><select id="musicSel" class="mus-sel"></select></label>
+        <button class="tool tool-btn" id="subBtn" type="button"><span>Phụ đề</span><b id="subCurName">LUKE</b></button>
+      </div>
+      <button class="btn primary" id="btnExport" type="button">Xuất video</button>
+    </div>
+
+    <!-- SECTION: tải clip YouTube theo giây (SliceTube-style) -->
+    <section class="yt-sec">
+      <button class="yt-sec-head" id="ytSecToggle" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V8m0 0-3 3m3-3 3 3"/><rect x="2" y="4" width="20" height="16" rx="3"/></svg>
+        Tải clip từ link (YouTube · Reddit) <span class="yt-sec-arr">▾</span>
+      </button>
+      <div class="yt-sec-body" id="ytSecBody" hidden>
+        <div class="yt-row">
+          <input type="text" id="ytUrl" placeholder="Dán link YouTube (video / shorts)…">
+          <button class="btn ghost sm" id="ytLoad" type="button">Tải player</button>
+        </div>
+        <div class="yt-row rd-row">
+          <input type="text" id="rdUrl" placeholder="Hoặc dán link Reddit (ảnh / video) / redvid.io…">
+          <label class="yt-target">Cảnh <select id="rdScene"></select></label>
+          <button class="btn primary sm" id="rdDownload" type="button">Tải về</button>
+        </div>
+        <div class="yt-player-wrap" id="ytPlayerWrap" hidden>
+          <div class="yt-player" id="ytPlayerHost"></div>
+          <div class="yt-trim">
+            <div class="yt-trim-row"><span>Bắt đầu</span><input type="range" id="ytStart" min="0" max="100" step="0.1" value="0"><b id="ytStartV">0.0s</b><button class="btn ghost sm" id="ytSetStart" type="button">lấy giây này</button></div>
+            <div class="yt-trim-row"><span>Kết thúc</span><input type="range" id="ytEnd" min="0" max="100" step="0.1" value="6"><b id="ytEndV">6.0s</b><button class="btn ghost sm" id="ytSetEnd" type="button">lấy giây này</button></div>
+            <div class="yt-trim-foot">
+              <span class="yt-len" id="ytLen">đoạn 6.0s</span>
+              <button class="btn ghost sm" id="ytPreview" type="button">▶ Xem thử đoạn</button>
+              <button class="btn primary sm" id="ytDownload" type="button">Tải clip về máy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ed-grid">
+      <div class="ed-left">
+        <div class="phone">
+          <div class="phone-screen" id="stage"></div>
+        </div>
+        <div class="stage-meta" id="sceneMeta"></div>
+        <div class="stage-nav">
+          <button class="btn ghost sm" id="navPrev" type="button">←</button>
+          <button class="btn ghost sm" id="navNext" type="button">→</button>
+        </div>
+        <div class="final-box" id="finalBox" hidden>
+          <h4>Video đã xuất</h4>
+          <video id="finalVideo" controls playsinline></video>
+        </div>
+      </div>
+      <div class="ed-rail" id="rail"></div>
+    </div>
+    <!-- MODAL: chọn kiểu phụ đề (4 style) + xem thử trên clip -->
+    <div class="sub-modal hidden" id="subModal">
+      <div class="sub-sheet">
+        <div class="sub-head">
+          <h3>Kiểu phụ đề</h3>
+          <button class="btn ghost sm" id="subPrevBtn" type="button">Xem thử trên clip</button>
+          <button class="sub-x" id="subClose" type="button" aria-label="đóng">×</button>
+        </div>
+        <div class="sub-grid" id="subGrid"></div>
+        <p class="sub-note">Bấm “Xem thử trên clip” để render 4 kiểu bằng chính video của bạn, rồi bấm để chọn. Đổi kiểu sẽ tự cập nhật phụ đề khi xuất.</p>
+      </div>
+    </div>
+    <input type="file" id="srcInput" accept="video/*,image/png,image/jpeg,image/webp" hidden />
+  </main>
+
+  <!-- log dock -->
+  <div class="dock" id="dock">
+    <button class="dock-head" id="dockToggle" type="button"><span class="dock-dot" id="dockDot"></span><span id="dockLast">Nhật ký</span><span class="dock-arr">▾</span></button>
+    <div class="dock-body" id="dockBody"></div>
+  </div>
+
+  <div class="loading hidden" id="loading"><div class="spin"></div><span id="loadText">Đang xử lý…</span></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!-- kinetic-light — FULL-SCREEN HTML animation (scene 4): nền TRẮNG, chữ ĐEN, nhấn ĐỎ. Phủ full 1080×1920. -->
+<!-- Placeholders: __COMP_ID__ __DUR__ __KICKER__ __LINES_HTML__  (mỗi dòng = <div class="kl-line">...</div>) -->
+<template id="__COMP_ID__-template">
+  <div data-composition-id="__COMP_ID__" data-start="0" data-width="1080" data-height="1920" data-duration="__DUR__">
+    <div class="kl-bg"></div>
+    <div class="kl-wrap">
+      <div class="kl-kicker"><span class="kl-bar"></span><span>__KICKER__</span></div>
+      <div class="kl-lines">__LINES_HTML__</div>
+    </div>
+    <style>
+      [data-composition-id="__COMP_ID__"]{position:absolute;inset:0;width:1080px;height:1920px;font-family:'Be Vietnam Pro',sans-serif;}
+      [data-composition-id="__COMP_ID__"] .kl-bg{position:absolute;inset:0;background:#FAF7F5;}
+      [data-composition-id="__COMP_ID__"] .kl-wrap{position:absolute;left:90px;right:90px;top:50%;transform:translateY(-50%);}
+      [data-composition-id="__COMP_ID__"] .kl-kicker{display:flex;align-items:center;gap:16px;margin-bottom:46px;
+        font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:32px;letter-spacing:.16em;text-transform:uppercase;color:#0B0B0C;opacity:.55;}
+      [data-composition-id="__COMP_ID__"] .kl-bar{width:10px;height:38px;background:#E10E1F;border-radius:3px;}
+      [data-composition-id="__COMP_ID__"] .kl-line{font-weight:800;font-size:120px;line-height:1.06;color:#0B0B0C;letter-spacing:-.015em;}
+      [data-composition-id="__COMP_ID__"] .kl-line .ac{color:#E10E1F;}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function(){
+        window.__timelines = window.__timelines || {};
+        const C='[data-composition-id="__COMP_ID__"]';
+        const tl = gsap.timeline({ paused:true });
+        // KHÔNG fade nền (tránh nháy đen) — nền trắng đặc ngay từ frame 0.
+        tl.from(C+' .kl-kicker', {opacity:0, x:-24, duration:.32, ease:'power2.out'}, .06);
+        tl.from(C+' .kl-line', {opacity:0, y:72, filter:'blur(16px)', duration:.46, ease:'power3.out', stagger:.16}, .12);
+        tl.to({}, { duration: __DUR__ }, 0);
+        window.__timelines["__COMP_ID__"] = tl;
+      })();
+    </script>
+  </div>
+</template>

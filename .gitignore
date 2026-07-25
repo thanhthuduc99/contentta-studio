@@ -1,0 +1,27 @@
+# Secrets — KHÔNG BAO GIỜ commit
+.env
+*.env
+!.env.example
+
+# Dữ liệu người dùng sinh ra (nặng, riêng tư)
+apps/vertical-pro/projects/
+apps/vertical-pro/uploads/
+apps/vertical-pro/scriptdocs/
+**/renders/
+**/assets/src/
+**/assets/broll/
+
+# Node / build
+node_modules/
+npm-debug.log*
+
+# Logs / tạm
+*.log
+autostart/*.log
+.playwright-mcp/
+.codegraph/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini

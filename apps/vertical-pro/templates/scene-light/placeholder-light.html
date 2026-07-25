@@ -1,0 +1,37 @@
+<!-- placeholder-light — scene full-video CHƯA có source: full khung, 1 dòng text báo cần chèn video. -->
+<!-- Placeholders: __COMP_ID__ __DUR__ __NOTE__ -->
+<template id="__COMP_ID__-template">
+  <div data-composition-id="__COMP_ID__" data-start="0" data-width="1080" data-height="1920" data-duration="__DUR__">
+    <div class="ph-bg"></div>
+    <div class="ph-wrap">
+      <div class="ph-frame">
+        <div class="ph-ic">▶</div>
+        <div class="ph-kick">CẢNH TRỐNG</div>
+        <div class="ph-note">__NOTE__</div>
+        <div class="ph-hint">Kéo video vào scene này (hoặc dùng link gợi ý)</div>
+      </div>
+    </div>
+    <style>
+      [data-composition-id="__COMP_ID__"]{position:absolute;inset:0;width:1080px;height:1920px;font-family:'Be Vietnam Pro',sans-serif;}
+      [data-composition-id="__COMP_ID__"] .ph-bg{position:absolute;inset:0;background:#0B0B0C;}
+      [data-composition-id="__COMP_ID__"] .ph-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+      [data-composition-id="__COMP_ID__"] .ph-frame{width:880px;border:3px dashed rgba(255,255,255,.32);border-radius:34px;padding:84px 60px;text-align:center;}
+      [data-composition-id="__COMP_ID__"] .ph-ic{font-size:96px;color:#E10E1F;line-height:1;margin-bottom:30px;}
+      [data-composition-id="__COMP_ID__"] .ph-kick{font-weight:600;font-size:30px;letter-spacing:.22em;color:rgba(255,255,255,.55);text-transform:uppercase;margin-bottom:24px;}
+      [data-composition-id="__COMP_ID__"] .ph-note{font-weight:800;font-size:74px;color:#fff;line-height:1.12;margin-bottom:26px;}
+      [data-composition-id="__COMP_ID__"] .ph-hint{font-weight:500;font-size:30px;color:rgba(255,255,255,.5);}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function(){
+        window.__timelines = window.__timelines || {};
+        const C='[data-composition-id="__COMP_ID__"]';
+        const tl = gsap.timeline({ paused:true });
+        tl.from(C+' .ph-frame', {opacity:0, scale:.94, duration:.3, ease:'power2.out'}, 0);
+        tl.from(C+' .ph-ic', {opacity:0, y:-16, duration:.3, ease:'power2.out'}, .08);
+        tl.to({}, { duration: __DUR__ }, 0);
+        window.__timelines["__COMP_ID__"] = tl;
+      })();
+    </script>
+  </div>
+</template>
