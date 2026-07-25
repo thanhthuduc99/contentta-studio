@@ -11,9 +11,11 @@
 
 import { spawn } from 'node:child_process';
 import { readFileSync, existsSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import os from 'node:os';
 
+const APPDIR = dirname(dirname(fileURLToPath(import.meta.url)));   // apps/vertical-pro (path tuyệt đối, không đổi khi chdir)
 const projDir = process.argv[2];
 if (!projDir) { console.error('Usage: node assemble-ffmpeg.mjs <projectDir>'); process.exit(1); }
 process.chdir(projDir);
@@ -55,8 +57,8 @@ shots.forEach((s, k) => {
 const hasMusic = existsSync(MUSIC);
 const musicIdx = nextIdx;
 if (hasMusic) { inputs.push('-stream_loop', '-1', '-i', MUSIC); nextIdx++; }
-// SFX click mỗi chuyển cảnh (path gốc — args array nên dấu cách OK)
-const SFX = 'D:\\thanh\\CONTENTTA AGENCY\\2 MARKETING & SALE\\sound effects\\mouse click fix.MP3';
+// SFX click mỗi chuyển cảnh (bundled trong app/sfx; args array nên dấu cách OK)
+const SFX = join(APPDIR, 'sfx', 'click.mp3');
 const sfxOn = plan.sfx !== false && existsSync(SFX);
 const sfxIdx = nextIdx;
 const bounds = plan.scenes.slice(1).map((s) => Math.round(s.start * 1000)).filter((ms) => ms > 0);
