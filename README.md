@@ -4,6 +4,10 @@ App tự host để dựng video short-form (1080×1920): AI cắt vấp, tách 
 
 Render một video gồm: mặt người (talking-head) + b-roll overlay + phụ đề burn + nhạc nền.
 
+![Màn hình dự án: preview dọc bên trái, danh sách cảnh bên phải](docs/images/editor-scene-panel.jpg)
+
+*Màn hình dự án: preview cảnh bên trái, mỗi cảnh chọn Split / Full / Mặt, chỉnh vị trí b-roll, tạo source AI.*
+
 ---
 
 ## 1. Yêu cầu cài trước
@@ -40,10 +44,19 @@ Mở trình duyệt: **http://localhost:3100**
 
 1. Kéo-thả **video quay chính** (ngang 16:9) vào ô upload → app tự transcribe, cắt vấp, tách cảnh.
 2. Mỗi cảnh chọn kiểu: **Split** (b-roll trên / mặt dưới), **Full** (b-roll full màn), hoặc **Mặt**.
+
+   ![3 kiểu cảnh trong video đã render: Split, Full, Mặt](docs/images/render-layouts-split-full-face.jpg)
+
+   *Frame cắt từ một video đã render bằng app: Split, Full, Mặt.*
+
 3. Kéo-thả / tạo **b-roll** cho cảnh Split/Full: upload file, tải từ YouTube/Reddit, lấy stock Pixabay, hoặc tạo bằng AI.
 4. Bấm **"Phụ đề"** → **Xem thử trên clip** → chọn 1 trong 4 style (LUKE · HORMOZI 1 · Ali · Umi).
 5. Chọn **Nhạc**, bật/tắt **Zoom ảnh**.
 6. **Xuất video** → file ở `apps/vertical-pro/projects/<tên>/renders/final.mp4`.
+
+<img src="docs/images/render-karaoke-subtitles.gif" alt="7 giây đầu một video đã xuất: cảnh Split rồi cảnh Mặt, phụ đề karaoke" width="300">
+
+*7 giây đầu một `final.mp4` đã xuất: cảnh Split chuyển sang Mặt, phụ đề karaoke tô màu từng chữ.*
 
 ## 4. API key (điền trong `.env`)
 
